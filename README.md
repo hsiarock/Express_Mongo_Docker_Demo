@@ -37,21 +37,21 @@ Generate the default structure
    Using tree . to see the directory structure
 
 Notes:
-------
+-----
 
    1. npm start will run ./bin/www, so u can also just run it directly
 
    2. www is javascript, it sets up port and listener, then use 'http' module to start server
 
 	var server = http.createServer(app);
-
+	
 	Note: app is loaded via ---> var app = require('../app'); 
-		in other words, all logic/mapping/routing is done in ../app.js 
+			in other words, all logic/mapping/routing is done in ../app.js 
 
    3. we are using Express 4.x, with Route module and middleware features
 
 	So, these are loaded modules
-   
+	
 	var expresss = require('express');
 	var path = require('path');
 	var favicon = require('serve-favicon');
@@ -68,7 +68,7 @@ Notes:
 	app.use(bodyParser.urlencoded({ extended: false }));
 	app.use(cookieParser());
 	app.use(express.static(path.join(__dirname, 'public')));
-	
+
    4. Specify routing path and its scripts
 
 	var routes = require('./routes/index');
