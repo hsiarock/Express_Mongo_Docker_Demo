@@ -43,57 +43,57 @@ Notes:
 
    2. www is javascript, it sets up port and listener, then use 'http' module to start server
 
-	var server = http.createServer(app);
-	
-	Note: app is loaded via ---> var app = require('../app'); 
+		var server = http.createServer(app);
+
+		Note: app is loaded via ---> var app = require('../app'); 
 			in other words, all logic/mapping/routing is done in ../app.js 
 
    3. we are using Express 4.x, with Route module and middleware features
 
-	So, these are loaded modules
-	
-	var expresss = require('express');
-	var path = require('path');
-	var favicon = require('serve-favicon');
-	var logger = require('morgan');
-	var cookieParser = require('cookie-parser');
-	var bodyParser = require('body-parser');
+      So, these are loaded modules
 
-	Also, see how we load the middlewares
+		var expresss = require('express');
+		var path = require('path');
+		var favicon = require('serve-favicon');
+		var logger = require('morgan');
+		var cookieParser = require('cookie-parser');
+		var bodyParser = require('body-parser');
 
-	// uncomment after placing your favicon in /public
-	//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-	app.use(logger('dev'));
-	app.use(bodyParser.json());
-	app.use(bodyParser.urlencoded({ extended: false }));
-	app.use(cookieParser());
-	app.use(express.static(path.join(__dirname, 'public')));
+      Also, see how we load the middlewares
+
+		// uncomment after placing your favicon in /public
+		//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+		app.use(logger('dev'));
+		app.use(bodyParser.json());
+		app.use(bodyParser.urlencoded({ extended: false }));
+		app.use(cookieParser());
+		app.use(express.static(path.join(__dirname, 'public')));
 
    4. Specify routing path and its scripts
 
-	var routes = require('./routes/index');
-	var users = require('./routes/users');
-	var db_ado = require('./routes/db_ado'); // hsia added
+		var routes = require('./routes/index');
+		var users = require('./routes/users');
+		var db_ado = require('./routes/db_ado'); // hsia added
 
    5. start express object
 
-	var app = express();
+		var app = express();
  
    6. setup Template engine
 
-	// view engine setup
-	app.set('views', path.join(__dirname, 'views')); --> all templates go to views directory
-	app.set('view engine', 'jade'); ----> template using 'jade' (call pug b4?)
-					-----> check ./views/index.jade, layout.jade, 
-                                        -----> I added db_ado.jade
+		app.set('views', path.join(__dirname, 'views')); 
+			--> all templates go to views directory
+		app.set('view engine', 'jade'); ----> template using 'jade' (call pug b4?)
+			-----> check ./views/index.jade, layout.jade, 
+			-----> I added db_ado.jade
 
-   7. so, routing is done via
+   7. so, routing is done via these mapping
 
-	app.use('/', routes);	---> routes is middleware in above require('./reoutes/index')
+		app.use('/', routes);	---> routes is middleware in above require('./reoutes/index')
 				---> so, ./routes/index.js
-	app.use('/users', users);---> users is middleware in above require('./reoutes/users')
+		app.use('/users', users);---> users is middleware in above require('./reoutes/users')
 				---> so, ./routes/users.js
-	app.use('/db_ado', db_ado);---> db_ado is middleware in above require('./reoutes/db_ado')
+		app.use('/db_ado', db_ado);---> db_ado is middleware in above require('./reoutes/db_ado')
 				---> so, ./routes/db_ado.js
 
 Integrate with MongoDB data model
