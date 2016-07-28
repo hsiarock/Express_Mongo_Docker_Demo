@@ -6,37 +6,38 @@ Install Express-generator
    $ npm install express-generator -g
 
 Generate the default structure
------------------------------
-This is generated structure 
+----------------------------
+   This is generated structure
 
-   $ express myapp 
-   create : myapp
-   create : myapp/package.json
-   create : myapp/app.js
-   create : myapp/public
-   create : myapp/public/javascripts
-   create : myapp/public/images
-   create : myapp/public/stylesheets
-   create : myapp/public/stylesheets/style.css
-   create : myapp/routes
-   create : myapp/routes/index.js
-   create : myapp/routes/users.js
-   create : myapp/views
-   create : myapp/views/index.jade
-   create : myapp/views/layout.jade
-   create : myapp/views/error.jade
-   create : myapp/bin
-   create : myapp/bin/www
+	$ express myapp 
+	create : myapp
+	create : myapp/package.json
+	create : myapp/app.js
+	create : myapp/public
+	create : myapp/public/javascripts
+	create : myapp/public/images
+	create : myapp/public/stylesheets
+	create : myapp/public/stylesheets/style.css
+	create : myapp/routes
+	create : myapp/routes/index.js
+	create : myapp/routes/users.js
+	create : myapp/views
+	create : myapp/views/index.jade
+	create : myapp/views/layout.jade
+	create : myapp/views/error.jade
+	create : myapp/bin
+	create : myapp/bin/www
 
    install dependencies:
-     $ cd myapp && npm install
-
+	$ cd myapp && npm install
+	
    run the app:
-     $ DEBUG=myapp:* npm start
+	$ DEBUG=myapp:* npm start
 
    Using tree . to see the directory structure
-------------------------------------------------------------
+
 Notes:
+------
 
    1. npm start will run ./bin/www, so u can also just run it directly
 
@@ -45,11 +46,11 @@ Notes:
 	var server = http.createServer(app);
 
 	Note: app is loaded via ---> var app = require('../app'); 
-              in other words, all logic/mapping/routing is done in ../app.js 
+		in other words, all logic/mapping/routing is done in ../app.js 
 
    3. we are using Express 4.x, with Route module and middleware features
 
-      So, these are loaded modules
+	So, these are loaded modules
    
 	var expresss = require('express');
 	var path = require('path');
@@ -58,7 +59,7 @@ Notes:
 	var cookieParser = require('cookie-parser');
 	var bodyParser = require('body-parser');
 
-      Also, see how we load the middlewares
+	Also, see how we load the middlewares
 
 	// uncomment after placing your favicon in /public
 	//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -88,12 +89,12 @@ Notes:
 
    7. so, routing is done via
 
-	app.use('/', routes);      ---> routes is middleware in above require('./reoutes/index')
-                                   ---> so, ./routes/index.js
-	app.use('/users', users);  ---> users is middleware in above require('./reoutes/users')
-                                   ---> so, ./routes/users.js
+	app.use('/', routes);	---> routes is middleware in above require('./reoutes/index')
+				---> so, ./routes/index.js
+	app.use('/users', users);---> users is middleware in above require('./reoutes/users')
+				---> so, ./routes/users.js
 	app.use('/db_ado', db_ado);---> db_ado is middleware in above require('./reoutes/db_ado')
-                                   ---> so, ./routes/db_ado.js
+				---> so, ./routes/db_ado.js
 
 Integrate with MongoDB data model
 --------------------------
@@ -120,8 +121,9 @@ Module: mongodb Installation
 	If you want an object model driver for MongoDB, look at Mongoose.
 
 
-----------------------------------------------------------------
+
 Install nodemon to automatically restart server when code change
+----------------------------------------------------------------
 
 	$ npm install nodemon --save-dev
 
@@ -141,20 +143,21 @@ Install nodemon to automatically restart server when code change
 
   Now, you can run npm run dev to trigger nodemon server.js.
 
----------------------------------------------------
 Free Cloud MongoDB
+------------------
 
 	https://mlab.com/
 
--------------------------------------------------------------
+
 start MongoDB in docker
+------------------------
 
 In order to let all docker to connect to Docker daemon, I start it -
 
 	$ sudo docker daemon -H 0.0.0.0:2375 &
 	$ docker -H :2375 info ---> check docker status
 	$ cat /etc/default/docker ---> see how I config auto-start docker daemon 
-	                               using "-H tcp://0.0.0.0:2375"
+					using "-H tcp://0.0.0.0:2375"
 
 	$ docker -H :2375 images
 	REPOSITORY           TAG                 IMAGE ID            CREATED             SIZE
@@ -195,22 +198,21 @@ To connect to mongo client
 	Note: I've imported data into resturnants container
 	1. first make sure you have the data file 
 	2. in the shell of david_mongo, run mongoimport
-	   $ docker -H :2375 exec -it  david_mongo /bin/sh   ---> open a shell in david_mongo docker
-	   # cd /data/db
-	   # mongoimport --db test --collection restaurants --drop --file primer-dataset.json
-	     mongoimport --db test --collection restaurants --drop --file primer-dataset_short.json
+		$ docker -H :2375 exec -it  david_mongo /bin/sh   ---> open a shell in david_mongo docker
+		# cd /data/db
+		# mongoimport --db test --collection restaurants --drop --file primer-dataset.json
+		mongoimport --db test --collection restaurants --drop --file primer-dataset_short.json
 
---------------------------------------------------------------------------------
+
 Add db model to Express
+------------------------
 
-make sure you have mongodb
---------------------------
-
+	make sure you have mongodb
+	
 	$ npm install mongodb
 
-add the connection
------------------
-
+	add the connection
+	
 	var MongoClient = require('mongodb').MongoClient;
 	
 	MongoClient.connect('mongodb://localhost:27017/animals', function(err, db) {
@@ -227,6 +229,7 @@ add the connection
 
 
 we want to connect to Docker's mongo DB, modify the host
+--------------------------------------------------------
 
 Since we start Docker using -p 271017:271017, we can use localhost:271017
 But we also can use docker's host ip 
@@ -251,9 +254,8 @@ But we also can use docker's host ip
 
 so "172.17.0.2:271017" is also working
 
-----------------------------------------------------------------------
 Add database connection and query into Express generator model
-
+----------------------------------------------------------------
 First of all, nodejs use module.exports... to expose variables
 
 bin/www --> requires(../app.js) --> 
@@ -265,9 +267,9 @@ But db connection is a one time and I want to keep it in global variable
 so add the following connect() function in routes/db_ado.js
 then module.exports.db_conn = db_conn (see below)
 
-------------------------------------------------------------------
-routes/db_ado.js added
 
+routes/db_ado.js added
+-----------------------
 var db_conn = function() {
 
   mongoClient.connect('mongodb://localhost:27017/test', function(err, database_connection) {
@@ -287,8 +289,8 @@ var db_conn = function() {
 module.exports = router;
 module.exports.db_conn = db_conn ;
 
-------------------------------------------------------------------
 ../app.js added
+---------------
 
     do = require('./routes/db_ado'); // dhsia added
 
@@ -297,9 +299,9 @@ module.exports.db_conn = db_conn ;
     db_ado.db_conn();   ---> call db_ado.db_conn(), then the db_conn is init
 
     module.exports = app;
-------------------------------------------------------------------
-add view/ado_table.jade, use this template to show the query result
 
+add view/ado_table.jade, use this template to show the query result
+------------------------------------------------------------------
 	david@ubuntu-pc:~/myexpress/myapp$ cat views/ado_table.jade
 	extends layout
 	
@@ -330,9 +332,9 @@ add view/ado_table.jade, use this template to show the query result
 	                td= item.grades
 	                td= item.name
 	                td= item.restaurant_id
-------------------------------------------------------
-modify routes/db_ado.js to add the post() method for query.
 
+modify routes/db_ado.js to add the post() method for query.
+------------------------------------------------------
 	/* Render /db_table template, after submit the query */
 	router.post('/quotes', function(req, res, next) {
 	
@@ -348,9 +350,9 @@ modify routes/db_ado.js to add the post() method for query.
 	
 	  });
 
--------------------------------------------------------------------------
-OK, start the Express server. You can
 
+OK, start the Express server. You can
+-------------------------------------------------------------------------
 1. npm start
 or
 2. cd myapp
